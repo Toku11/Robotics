@@ -118,20 +118,20 @@ class Spline2D{
     return new float[] {x,y};
   }
   
-  public double calc_yaw(float s){
+  public float calc_yaw(float s){
     float dx = sx.calcd(s);
     float dy = sy.calcd(s);
-    double yaw = atan2(dy,dx);
+    float yaw = atan2(dy,dx);
     return yaw;
   }
   
-  public double calc_curvature(float s){
+  public float calc_curvature(float s){
     double dx  = sx.calcd(s);
     double ddx = sx.calcdd(s); 
     double dy  = sy.calcd(s);
     double ddy = sy.calcdd(s);
     double k   = (ddy *dx - ddx * dy) / (Math.pow((Math.pow(dx, 2.0) + Math.pow(dy, 2.0)), 3 / 2));
-    return k;
+    return (float)k;
   }
 }
 
