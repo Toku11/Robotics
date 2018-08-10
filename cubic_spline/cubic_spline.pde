@@ -134,3 +134,30 @@ class Spline2D{
     return k;
   }
 }
+
+public class CubicSplinePlanner{
+  Spline2D spline2D; 
+  
+  CubicSplinePlanner(){
+  }
+  public ArrayList<ArrayList<Float>> calc_spline_course(float[] x, float[] y, float ds){
+    ArrayList<Float> rx = new ArrayList<Float>();
+    ArrayList<Float> ry = new ArrayList<Float>();
+    ArrayList<Float> ryaw = new ArrayList<Float>();
+    ArrayList<Float> rk = new ArrayList<Float>();
+    spline2D = new Spline2D(x,y);
+    float [] s = utils.arange(0.0,spline2D.s[spline2D.s.length-1],ds);
+    for(float val : s){
+      rx.add(spline2D.calc_position(val)[0]);
+      ry.add(spline2D.calc_position(val)[1]);
+      ryaw.add(spline2D.calc_yaw(val));
+      rk.add(spline2D.calc_curvature(val));
+    }  
+    ArrayList<ArrayList<Float>> output = new ArrayList<ArrayList<Float>>();
+    output.add(rx);
+    output.add(ry);
+    output.add(ryaw);
+    output.add(rk);
+    return output;
+  }
+}
