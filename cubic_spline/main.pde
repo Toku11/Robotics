@@ -1,35 +1,28 @@
-Spline2D spline2D; 
+CubicSplinePlanner csp = new CubicSplinePlanner();
 Utils utils = new Utils();
 PVector offset ;
-ArrayList<Float> rx = new ArrayList<Float>();
-ArrayList<Float> ry = new ArrayList<Float>();
-ArrayList<Double> ryaw = new ArrayList<Double>();
-ArrayList<Double> rk = new ArrayList<Double>();
-void setup() {
+ArrayList<ArrayList<Float>> spline;
+void settings(){
   size(1000, 1000);
+}
+void setup() {
+
   offset = new PVector(width/2, height/2);
 
-  float [] x = {-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0};
-  float [] y = {0.7, -6.0, 5.0, 6.5, 0.0, 5.0, -2.0};
-
-  spline2D = new Spline2D(x,y);
-  float [] s = utils.arange(0.0,spline2D.s[spline2D.s.length-1],0.1);
- 
-  for(float val : s){
-    rx.add(spline2D.calc_position(val)[0]);
-    ry.add(spline2D.calc_position(val)[1]);
-    ryaw.add(spline2D.calc_yaw(val));
-    rk.add(spline2D.calc_curvature(val));
-  }
-
+  float [] x = {0.0,30.0,200.0};
+  float [] y = {0.0,10.0,-210.0};
+  spline = csp.calc_spline_course(x, y, 0.5);
 
 }
 
 void draw(){
+  background(0);
+  stroke(255);
   pushMatrix(); 
   translate(offset.x, offset.y);
-  for(int i = 0;i < rx.size(); ++i){
-    point(rx.get(i)*10,-ry.get(i)*10);
-  }
+   for (int i = 0; i < spline.get(0).size();++i){
+    point(spline.get(0).get(i), -spline.get(1).get(i));
+   }
+
   popMatrix();
 }
